@@ -6,7 +6,7 @@
 #    By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/07 03:04:25 by tamatsuu          #+#    #+#              #
-#    Updated: 2024/09/07 03:04:33 by tamatsuu         ###   ########.fr        #
+#    Updated: 2024/09/10 02:23:34 by tamatsuu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,8 @@ CC			= cc
 #CFLAGS		= -Wall -Wextra -Werror -fsanitize=address
 CFLAGS		= -Wall -Wextra -Werror 
 SRCS		= ./src/main.c \
+./src/init_pipex.c \
+./src/pipex.c
 
 
 

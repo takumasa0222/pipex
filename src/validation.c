@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 01:45:59 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/09/13 04:27:33 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/09/13 22:43:38 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,12 @@ void	argnum_check(t_pipex *pipe_i)
 		return ;// error handle
 }
 
+/*
+infile は存在しない場合、自動的に、エラーとなる。
+権限の確認と、読み込みの確認が同時にできるのかについては確認が必要
+outfile の場合、ファイルが存在する場合は、書き込み権限の有無の確認が必要。
+ファイルが存在しない場合は作成する。
+*/
 void	file_check(t_pipex *pipe_i)
 {	
 	ssize_t	i;
@@ -45,10 +51,6 @@ void	file_check(t_pipex *pipe_i)
 		set_infile(pipe_i);
 	else
 		perror("bash");
-/*
-outfile の場合、ファイルが存在する場合は、書き込み権限の有無の確認が必要。
-ファイルが存在しない場合は作成する。
-*/
 	if (access(pipe_i->cmd[i], F_OK) != 0 \
 	|| access(pipe_i->cmd[i], F_OK | W_OK) == 0 )
 	{

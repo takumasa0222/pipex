@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 03:13:58 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/09/10 02:49:54 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/09/14 04:19:02 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	set_cmd_cnt(t_pipex *pipe_i);
 char	**set_cmd(int argc, char **argv);
 
 void	pipex(t_pipex *pipe_i);
-void	pipe_exec(t_pipex *pipe_i, int i);
+void	pipe_exec(t_pipex *pipe_i, int i, pid_t fork_ret);
 void	exec_cmd(t_pipex *pipe_i, int i);
 
 #endif

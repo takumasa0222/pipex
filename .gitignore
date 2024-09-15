@@ -1,3 +1,9 @@
 test/no_permission
 pipex
 test/*no_perm
+*.o
+*.out
+src/init_pipex.o
+./src/*.o
+src/main.o
+src/main.o

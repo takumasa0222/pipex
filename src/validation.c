@@ -6,14 +6,15 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 01:45:59 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/09/13 22:43:38 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/09/15 23:04:11 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 #include <unistd.h>
 #include <stdlib.h>
-
+#include <stdio.h>
+#include "../libft/libft.h"
 /*
 考慮事項
 ・入力ファイルが存在しないとき エラー出力
@@ -22,16 +23,17 @@
 ・コマンドが存在しないとき エラー出力
 */
 
-validate_args(t_pipex *pipe_i)
+void	validate_args(t_pipex *pipe_i)
 {
 	argnum_check(pipe_i);
-	file_check(pipe_i);
+	infile_check(pipe_i);
+	outfile_check(pipe_i);
 }
 
 void	argnum_check(t_pipex *pipe_i)
 {
 	if (pipe_i->cmd_cnt < 2)
-		return ;// error handle
+		throw_err(pipe_i, EINVAL);
 }
 
 /*
@@ -40,24 +42,42 @@ infile は存在しない場合、自動的に、エラーとなる。
 outfile の場合、ファイルが存在する場合は、書き込み権限の有無の確認が必要。
 ファイルが存在しない場合は作成する。
 */
-void	file_check(t_pipex *pipe_i)
+void	infile_check(t_pipex *pipe_i)
 {	
-	ssize_t	i;
+	char	*tmp_err;
 
-	i = arg_len();
+	tmp_err = init_tmp_err(pipe_i, 0);
 	if (pipe_i->is_here_doc)
-		init_here_doc(pipe_i);
-	else if (access(pipe_i->cmd[0], F_OK | R_OK) == 0)
+		;//init_here_doc(pipe_i);
+	else if (access(pipe_i->arg[0], F_OK | R_OK) == 0)
 		set_infile(pipe_i);
 	else
-		perror("bash");
-	if (access(pipe_i->cmd[i], F_OK) != 0 \
-	|| access(pipe_i->cmd[i], F_OK | W_OK) == 0 )
+	{
+		pipe_i->is_valid_infile = 0;
+		pipe_i->in_fd = -1;
+		perror(tmp_err);
+		free(tmp_err);
+	}
+}
+
+void	outfile_check(t_pipex *pipe_i)
+{	
+	ssize_t	i;
+	char	*tmp_err;
+
+	i = get_arry_size(pipe_i->arg) - 1;
+	tmp_err = init_tmp_err(pipe_i, i);
+	if (access(pipe_i->arg[i], F_OK) != 0 \
+	|| access(pipe_i->arg[i], F_OK | W_OK) == 0)
 	{
 		if (pipe_i->is_here_doc)
 			set_outfile_append(pipe_i);
 		set_outfile(pipe_i);
 	}
 	else
-		perror("bash");
+	{	
+		pipe_i->out_fd = -1;
+		perror(tmp_err);
+	}
+	free(tmp_err);
 }

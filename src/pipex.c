@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 04:35:59 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/09/14 04:28:29 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/09/15 19:54:22 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,53 +20,39 @@
 void	pipex(t_pipex *pipe_i)
 {
 	int	i;
-	pid_t	fork_ret;
-	//int		p_fd[2];
-	int		c_status;
-	
-	i = 0;
+	int	c_status;
+
 	if (pipe_i->is_here_doc)
-		dup2(0,	STDIN_FILENO);
+		dup2(0, STDIN_FILENO);
 	else
 		dup2(pipe_i->in_fd, STDIN_FILENO);
-	printf("%d\n", pipe_i->in_fd);
-	printf("%d\n", pipe_i->cmd_cnt);
-	printf("%d\n", pipe_i->out_fd);
-
-	while (i < pipe_i->cmd_cnt)
-	{
-		i++;
-		fork_ret = fork();
-		pipe_exec(pipe_i, i, fork_ret);
-		//子プロセスは全体で一気に走らす。最終的に、親プロセスで待つといった順番が必要そう
-		waitpid(fork_ret, &c_status, 0);
-	}
-	//if (dup2(pipe_i->out_fd, STDOUT_FILENO) == -1)
-	//{
-	//	perror("dup2 failed for output redirection");
-	//	exit(1);
-	//}
-	//i++;
-	//exec_cmd(pipe_i, i);
-
-
+	printf("in_fd %d\n",pipe_i->in_fd);
+	printf("out_fd %d\n",pipe_i->out_fd);
+	i = -1;
+	if (!(pipe_i->is_valid_infile))
+		i = 0;
+	while (++i < pipe_i->cmd_cnt)
+		pipe_exec(pipe_i, i);
+	i = -1;
+	if (!(pipe_i->is_valid_infile))
+		i = 0;
+	while (++i < 2)
+		waitpid(pipe_i->fork_ids[i], &c_status, 0);
 }
-// this function simulate | behavior
-void	pipe_exec(t_pipex *pipe_i, int i, pid_t fork_ret)
-{
-	//pid_t	fork_ret;
-	int		p_fd[2];
-	int		c_status;
 
-	c_status = 0;
+// this function simulate pipe behavior
+void	pipe_exec(t_pipex *pipe_i, int i)
+{
+	int		p_fd[2];
+
 	if (pipe(p_fd) == -1)
-			return ;//error handle
-	//fork_ret = fork();
-	if (fork_ret == 0)
+		return ;//error handle
+	pipe_i->fork_ids[i] = fork();
+	if (pipe_i->fork_ids[i] == 0)
 	{
 		close(p_fd[0]);
 		dup2(p_fd[1], STDOUT_FILENO);
-		if (i == 2)
+		if (i == (get_arry_size(pipe_i->cmd) - 1))
 			dup2(pipe_i->out_fd, STDOUT_FILENO);
 		close(p_fd[1]);
 		exec_cmd(pipe_i, i);
@@ -74,11 +60,9 @@ void	pipe_exec(t_pipex *pipe_i, int i, pid_t fork_ret)
 	}
 	else
 	{
-		//wait(&c_status);
 		close(p_fd[1]);
 		dup2(p_fd[0], STDIN_FILENO);
 		close(p_fd[0]);
-		
 	}
 }
 

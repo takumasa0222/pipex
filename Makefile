@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+         #
+#    By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/07 03:04:25 by tamatsuu          #+#    #+#              #
-#    Updated: 2024/09/10 02:23:34 by tamatsuu         ###   ########.fr        #
+#    Updated: 2024/09/15 19:32:13 by tamatsuu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,9 +15,10 @@ CC			= cc
 CFLAGS		= -Wall -Wextra -Werror 
 SRCS		= ./src/main.c \
 ./src/init_pipex.c \
-./src/pipex.c
-
-
+./src/pipex.c \
+./src/pipex_utils.c \
+./src/validation.c \
+./src/validation_utils.c
 
 OBJS		= $(SRCS:%.c=%.o)
 BONUS		=

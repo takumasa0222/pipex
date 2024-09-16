@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 22:44:58 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/09/15 23:00:02 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/09/16 19:59:15 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,29 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include "../libft/libft.h"
+#include "../ft_get_next_line/get_next_line.h"
 
-void	set_infile(t_pipex *pipe_i)
+void	set_infile(t_pipex *pipe_i, char *file_path)
 {
-	pipe_i->in_fd = open(pipe_i->arg[0], O_RDONLY, DEF_PERM);
+	pipe_i->in_fd = open(file_path, O_RDONLY, DEF_PERM);
+	if (pipe_i->in_fd == -1)
+		perror("");
 }
 
-void	set_outfile(t_pipex *pipe_i)
+void	set_outfile(t_pipex *pipe_i, char *file_path)
 {
-	int	i;
-
-	i = get_arry_size(pipe_i->arg);
-	pipe_i->out_fd = open(pipe_i->arg[i - 1], \
-	O_RDWR | O_CREAT | O_TRUNC, DEF_PERM);
+	pipe_i->out_fd = open(file_path, \
+	O_WRONLY | O_CREAT | O_TRUNC, DEF_PERM);
+	if (pipe_i->out_fd == -1)
+		perror("");
 }
 
-void	set_outfile_append(t_pipex *pipe_i)
+void	set_outfile_append(t_pipex *pipe_i, char *file_path)
 {
-	int	i;
-
-	i = get_arry_size(pipe_i->cmd);
-	pipe_i->out_fd = open(pipe_i->arg[i - 1], \
-	O_RDWR | O_CREAT | O_APPEND, DEF_PERM);
+	pipe_i->out_fd = open(file_path, \
+	O_WRONLY | O_CREAT | O_APPEND, DEF_PERM);
+	if (pipe_i->out_fd == -1)
+		perror("");
 }
 
 char	*init_tmp_err(t_pipex *pipe_i, int x)
@@ -58,4 +59,32 @@ char	*init_tmp_err(t_pipex *pipe_i, int x)
 	}
 	ret[i] = '\0';
 	return (ret);
+}
+
+void	init_here_doc(t_pipex *pipe_i)
+{
+	int		tmp_fd;
+	char	*line;
+
+	tmp_fd = open(HERE_DOC_TMP, O_WRONLY | O_CREAT | O_TRUNC, DEF_PERM);
+	if (tmp_fd == -1)
+		throw_err(pipe_i, 0);
+	line = NULL;
+	while (1)
+	{
+		ft_putstr_fd("> ", 1);
+		line = get_next_line(STDIN_FILENO);
+		if (!line)
+			break ;
+		else if (ft_strlen(line) - 1 == ft_strlen(pipe_i->arg[1])\
+		&& !(ft_strncmp(line, pipe_i->arg[1], ft_strlen(line) - 1)))
+			break ;
+		else
+			ft_putstr_fd(line, tmp_fd);
+		free(line);
+
+		line = NULL;
+	}
+	free(line);
+	close(tmp_fd);
 }

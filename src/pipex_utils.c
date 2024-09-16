@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 17:59:42 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/09/15 23:34:04 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/09/16 20:35:03 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../libft/libft.h"
 
 int	get_arry_size(char **arry)
 {
@@ -27,17 +28,23 @@ int	get_arry_size(char **arry)
 	return (ret);
 }
 
-//void	clean_resource(t_pipex *pipe_i)
-//{
-
-//}
-
 void	throw_err(t_pipex *pipe_i, int err_no)
 {
-	if (!err_no)
-		strerror("");
+	char	*err_msg;
+
+	err_msg = NULL;
+	if (err_no)
+	{
+		err_msg = strerror(err_no);
+		ft_putstr_fd(err_msg, STDERR_FILENO);
+	}
+	else
+		perror("");
 	if (pipe_i)
+	{
+		close_fds(pipe_i->in_fd, pipe_i->out_fd);
 		free_pipe_info(pipe_i);
+	}
 	if (err_no)
 		exit(err_no);
 	exit(EXIT_FAILURE);
@@ -66,4 +73,10 @@ void	free_pipe_info(t_pipex *pipe_i)
 	}
 	free(pipe_i->cmd);
 	free(pipe_i);
+}
+void	close_pipex(t_pipex *pipe_i, int close_status)
+{
+	close_fds(pipe_i->in_fd, pipe_i->out_fd);
+	free_pipe_info(pipe_i);
+	exit(close_status);
 }

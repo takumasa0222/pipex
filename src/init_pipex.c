@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 04:16:52 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/09/15 21:41:05 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/09/16 20:19:13 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "pipex.h"
 #include "../libft/libft.h"
 #include <fcntl.h>
-
 
 void	init_pipex(int argc, char **argv, t_pipex **pipe_i)
 {
@@ -37,8 +36,9 @@ void	init_pipex(int argc, char **argv, t_pipex **pipe_i)
 void	set_here_doc(t_pipex *pipe_i)
 {
 	if (!pipe_i)
-		return ;
-	if (!(ft_strncmp(pipe_i->arg[0], HERE_DOC, 8)))
+		throw_err(pipe_i, EINVAL);
+	if (!(ft_strncmp(pipe_i->arg[0], HERE_DOC, 8)) \
+	&& ft_strlen(pipe_i->arg[0]) == 8)
 		pipe_i->is_here_doc = 1;
 	else
 		pipe_i->is_here_doc = 0;
@@ -47,7 +47,7 @@ void	set_here_doc(t_pipex *pipe_i)
 void	set_cmd_cnt(t_pipex *pipe_i)
 {
 	if (!pipe_i)
-		return ;
+		throw_err(pipe_i, EINVAL);
 	pipe_i->cmd_cnt = get_arry_size(pipe_i->cmd);
 }
 

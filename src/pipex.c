@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 04:35:59 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/09/15 19:54:22 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/09/16 23:33:58 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,13 @@
 #include <sys/wait.h>
 #include <stdio.h>
 
-void	pipex(t_pipex *pipe_i)
+int	pipex(t_pipex *pipe_i)
 {
 	int	i;
 	int	c_status;
 
-	if (pipe_i->is_here_doc)
-		dup2(0, STDIN_FILENO);
-	else
-		dup2(pipe_i->in_fd, STDIN_FILENO);
-	printf("in_fd %d\n",pipe_i->in_fd);
-	printf("out_fd %d\n",pipe_i->out_fd);
+	if (pipe_i->is_valid_infile)
+		custom_dup2(pipe_i->in_fd, STDIN_FILENO, pipe_i, -1);
 	i = -1;
 	if (!(pipe_i->is_valid_infile))
 		i = 0;
@@ -36,8 +32,9 @@ void	pipex(t_pipex *pipe_i)
 	i = -1;
 	if (!(pipe_i->is_valid_infile))
 		i = 0;
-	while (++i < 2)
+	while (++i < pipe_i->cmd_cnt)
 		waitpid(pipe_i->fork_ids[i], &c_status, 0);
+	return (c_status);
 }
 
 // this function simulate pipe behavior
@@ -46,23 +43,25 @@ void	pipe_exec(t_pipex *pipe_i, int i)
 	int		p_fd[2];
 
 	if (pipe(p_fd) == -1)
-		return ;//error handle
+		throw_err(pipe_i, 0);
 	pipe_i->fork_ids[i] = fork();
 	if (pipe_i->fork_ids[i] == 0)
 	{
-		close(p_fd[0]);
-		dup2(p_fd[1], STDOUT_FILENO);
-		if (i == (get_arry_size(pipe_i->cmd) - 1))
-			dup2(pipe_i->out_fd, STDOUT_FILENO);
-		close(p_fd[1]);
+		custom_dup2(p_fd[1], STDOUT_FILENO, pipe_i, p_fd[0]);
+		close_fds(p_fd[0], p_fd[1]);
+		if (i == (get_arry_size(pipe_i->cmd) - 1) && pipe_i->out_fd != -1)
+			custom_dup2(pipe_i->out_fd, STDOUT_FILENO, pipe_i, -1);
 		exec_cmd(pipe_i, i);
-		exit(0);
+	}
+	else if (pipe_i->fork_ids[i] == -1)
+	{
+		close_fds(p_fd[0], p_fd[1]);
+		throw_err(pipe_i, 0);
 	}
 	else
 	{
-		close(p_fd[1]);
-		dup2(p_fd[0], STDIN_FILENO);
-		close(p_fd[0]);
+		custom_dup2(p_fd[0], STDIN_FILENO, pipe_i, p_fd[1]);
+		close_fds(p_fd[0], p_fd[1]);
 	}
 }
 
@@ -72,7 +71,8 @@ void	exec_cmd(t_pipex *pipe_i, int i)
 
 	cmd = ft_split(pipe_i->cmd[i], ' ');
 	if (!cmd)
-		return ;// error handle
+		throw_err(pipe_i, EINVAL);
 	execvp(cmd[0], cmd);
-	perror("execvp failed");
+	if (!(i == (get_arry_size(pipe_i->cmd) - 1) && pipe_i->out_fd == -1))
+		perror("");
 }

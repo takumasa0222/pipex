@@ -1,33 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   pipex_utils_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/07 03:04:18 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/09/16 23:14:11 by tamatsuu         ###   ########.fr       */
+/*   Created: 2024/09/16 15:57:54 by tamatsuu          #+#    #+#             */
+/*   Updated: 2024/09/16 16:15:40 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
 #include <stdlib.h>
+#include "pipex.h"
+#include "../libft/libft.h"
+#include <fcntl.h>
+#include <sys/wait.h>
 #include <stdio.h>
 
-int	main(int argc, char *argv[])
+int	custom_dup2(int fd, int fd2, t_pipex *pipe_i, int fd3)
 {
-	t_pipex	*pipe_i;
-	int		ret;
+	int	ret;
 
-	ret = 0;
-	pipe_i = NULL;
-	init_pipex(argc, argv, &pipe_i);
-	validate_args(pipe_i);
-	printf("in_fd %d\n",pipe_i->in_fd);
-	printf("out_fd %d\n",pipe_i->out_fd);
-	printf("heredoc %d\n", pipe_i->is_here_doc);
-	printf("is_valid_infile %d\n", pipe_i->is_valid_infile);
-	printf("cmd_cnt %d\n", pipe_i->cmd_cnt);
-	ret = pipex(pipe_i);
-	close_pipex(pipe_i, ret);
+	ret = dup2(fd, fd2);
+	if (ret == -1)
+	{
+		close_fds(fd, fd3);
+		throw_err(pipe_i, 0);
+	}
+	return (ret);
+}
+
+int	close_fds(int fd, int fd2)
+{
+	if (fd != -1)
+		close(fd);
+	if (fd2 != -1)
+		close(fd2);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 01:45:59 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/09/15 23:04:11 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/09/16 20:37:56 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,19 @@ void	infile_check(t_pipex *pipe_i)
 
 	tmp_err = init_tmp_err(pipe_i, 0);
 	if (pipe_i->is_here_doc)
-		;//init_here_doc(pipe_i);
+	{
+		init_here_doc(pipe_i);
+		set_infile(pipe_i, HERE_DOC_TMP);
+	}
 	else if (access(pipe_i->arg[0], F_OK | R_OK) == 0)
-		set_infile(pipe_i);
+		set_infile(pipe_i, pipe_i->arg[0]);
 	else
 	{
 		pipe_i->is_valid_infile = 0;
 		pipe_i->in_fd = -1;
 		perror(tmp_err);
-		free(tmp_err);
 	}
+	free(tmp_err);
 }
 
 void	outfile_check(t_pipex *pipe_i)
@@ -71,8 +74,9 @@ void	outfile_check(t_pipex *pipe_i)
 	|| access(pipe_i->arg[i], F_OK | W_OK) == 0)
 	{
 		if (pipe_i->is_here_doc)
-			set_outfile_append(pipe_i);
-		set_outfile(pipe_i);
+			set_outfile_append(pipe_i, pipe_i->arg[i]);
+		else
+			set_outfile(pipe_i, pipe_i->arg[i]);
 	}
 	else
 	{	

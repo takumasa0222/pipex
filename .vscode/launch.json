@@ -9,7 +9,7 @@
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "${workspaceFolder}/pipex",
-			"args": ["/dev/stdin", "cat", "ls", "/dev/stdout"],
+			"args": ["here_doc", "exit", "cat", "wc -l", "/dev/stdout"],
 			"stopAtEntry": false,
 			"cwd": "${fileDirname}",
 			"environment": [],
@@ -26,6 +26,13 @@
 					"text": "-gdb-set disassembly-flavor intel",
 					"ignoreFailures": true
 				}
+				//,
+				//{
+				//  "description": "Trace child processes",
+				//  "text": "set follow-fork-mode child",   // 子プロセスを追跡するための設定
+				//  "ignoreFailures": false
+				//}
+				
 			]
 		}
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 03:13:58 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/09/16 20:35:33 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/09/24 05:02:51 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # define DEF_PERM 0644
 # define MSG_SIZE 1024
 # define BASH_FILE_ERR_MSG "bash: "
+
+# define 
 
 # define HERE_DOC "here_doc"
 # define HERE_DOC_TMP ".here_doc.tmp"
@@ -35,7 +37,7 @@ typedef struct s_pipex
 	pid_t	fork_ids[FD_NUM];
 }	t_pipex;
 
-int		main(int argc, char *argv[]);
+int		main(int argc, char *argv[], char *envp[]);
 
 void	init_pipex(int argc, char **argv, t_pipex **pipe_i);
 void	set_here_doc(t_pipex *pipe_i);
@@ -43,9 +45,9 @@ void	set_cmd_cnt(t_pipex *pipe_i);
 char	**set_cmd(t_pipex *pipe_i);
 char	**set_arg(int argc, char **argv);
 
-int		pipex(t_pipex *pipe_i);
-void	pipe_exec(t_pipex *pipe_i, int i);
-void	exec_cmd(t_pipex *pipe_i, int i);
+int		pipex(t_pipex *pipe_i, char **cmd_path);
+void	pipe_exec(t_pipex *pipe_i, int i, char **cmd_path);
+void	exec_cmd(t_pipex *pipe_i, int i, char **cmd_path);
 
 int		get_arry_size(char **arry);
 void	throw_err(t_pipex *pipe_i, int err_no);
@@ -57,6 +59,9 @@ void	argnum_check(t_pipex *pipe_i);
 void	infile_check(t_pipex *pipe_i);
 void	outfile_check(t_pipex *pipe_i);
 
+void	init_path(char **envp, char ***path_var);
+
+void	cmd_executable_check(char **cmd, char **cmd_path);
 
 void	set_infile(t_pipex *pipe_i, char *file_path);
 void	set_outfile(t_pipex *pipe_i, char *file_path);

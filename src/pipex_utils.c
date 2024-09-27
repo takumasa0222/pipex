@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 17:59:42 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/09/16 20:35:03 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/09/18 03:15:03 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	throw_err(t_pipex *pipe_i, int err_no)
 		ft_putstr_fd(err_msg, STDERR_FILENO);
 	}
 	else
-		perror("");
+		// perror("");
 	if (pipe_i)
 	{
 		close_fds(pipe_i->in_fd, pipe_i->out_fd);

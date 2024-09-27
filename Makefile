@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+         #
+#    By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/07 03:04:25 by tamatsuu          #+#    #+#              #
-#    Updated: 2024/09/16 17:23:21 by tamatsuu         ###   ########.fr        #
+#    Updated: 2024/09/24 02:47:28 by tamatsuu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,10 +18,12 @@ SRCS		= ./src/main.c \
 ./src/pipex.c \
 ./src/pipex_utils.c \
 ./src/validation.c \
+./src/validation_2.c \
 ./src/validation_utils.c\
 ./src/pipex_utils_2.c \
 ./ft_get_next_line/get_next_line.c \
-./ft_get_next_line/get_next_line_utils.c
+./ft_get_next_line/get_next_line_utils.c \
+./src/init_path.c
 
 OBJS		= $(SRCS:%.c=%.o)
 BONUS		=

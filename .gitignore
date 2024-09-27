@@ -20,3 +20,7 @@ src/main.o
 src/pipex.o
 test/non_exit_out
 test/outfile_1
+tmp
+tmp2
+cat
+libft

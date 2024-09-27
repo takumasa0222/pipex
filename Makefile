@@ -3,14 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+         #
+#    By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/07 03:04:25 by tamatsuu          #+#    #+#              #
-#    Updated: 2024/09/24 02:47:28 by tamatsuu         ###   ########.fr        #
+#    Updated: 2024/09/28 04:31:46 by tamatsuu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC			= cc
+#CC			= cc
+CC			= clang
 #CFLAGS		= -Wall -Wextra -Werror -fsanitize=address
 CFLAGS		= -Wall -Wextra -Werror 
 SRCS		= ./src/main.c \
@@ -24,6 +25,7 @@ SRCS		= ./src/main.c \
 ./ft_get_next_line/get_next_line.c \
 ./ft_get_next_line/get_next_line_utils.c \
 ./src/init_path.c
+
 
 OBJS		= $(SRCS:%.c=%.o)
 BONUS		=
@@ -45,7 +47,6 @@ $(NAME): $(OBJS)
 
 clean:
 	@make clean -C libft
-	@make clean -C ft_get_next_line 
 	rm -f $(OBJS) $(BOBJS)
 	
 fclean: clean

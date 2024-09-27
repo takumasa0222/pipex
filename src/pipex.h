@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 03:13:58 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/09/24 05:02:51 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/09/28 02:32:05 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,12 @@
 # define DEF_PERM 0644
 # define MSG_SIZE 1024
 # define BASH_FILE_ERR_MSG "bash: "
+# define CMD_NOT_FOUND_MSG "command not found\n"
+# define PERMISSION_DENIED_MSG "Permission denied\n"
+# define COLON ": "
+# define PERMISSION_DENIED 1
+# define CMD_NOT_FOUND 2
 
-# define 
 
 # define HERE_DOC "here_doc"
 # define HERE_DOC_TMP ".here_doc.tmp"
@@ -62,6 +66,9 @@ void	outfile_check(t_pipex *pipe_i);
 void	init_path(char **envp, char ***path_var);
 
 void	cmd_executable_check(char **cmd, char **cmd_path);
+int		check_cmd_exec_w_path(char **cmd_path, char *cmd);
+void	ft_printerr(char *err_msg, char *err_cmd);
+int		check_cmd_exec(char *cmd);
 
 void	set_infile(t_pipex *pipe_i, char *file_path);
 void	set_outfile(t_pipex *pipe_i, char *file_path);

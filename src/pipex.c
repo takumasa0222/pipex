@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 04:35:59 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/09/28 01:43:53 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/10/02 03:00:12 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void	exec_cmd(t_pipex *pipe_i, int i, char **cmd_path)
 		throw_err(pipe_i, EINVAL);
 	cmd_executable_check(cmd, cmd_path);
 	execvp(cmd[0], cmd);
+	write(STDERR_FILENO, &cmd_path[0], 30);
 	perror("");
 	free(cmd);
 }

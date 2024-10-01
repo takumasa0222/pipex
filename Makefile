@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+         #
+#    By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/07 03:04:25 by tamatsuu          #+#    #+#              #
-#    Updated: 2024/09/28 04:31:46 by tamatsuu         ###   ########.fr        #
+#    Updated: 2024/10/02 01:40:01 by tamatsuu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-#CC			= cc
-CC			= clang
+CC			= cc
+# CC			= clang
 #CFLAGS		= -Wall -Wextra -Werror -fsanitize=address
 CFLAGS		= -Wall -Wextra -Werror 
 SRCS		= ./src/main.c \

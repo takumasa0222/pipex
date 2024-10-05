@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 03:13:58 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/10/02 00:53:29 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/10/06 01:26:01 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 
 # define HERE_DOC "here_doc"
 # define HERE_DOC_TMP ".here_doc.tmp"
+# define SINGLE_QUOT '\''
 # include <sys/wait.h>
 # include <errno.h>
 
@@ -78,4 +79,11 @@ void	init_here_doc(t_pipex *pipe_i);
 
 int		custom_dup2(int fd, int fd2, t_pipex *pipe_i, int fd3);
 int		close_fds(int fd, int fd2);
+
+char	**ft_cmd_tokenizer(char *s, char c);
+void	get_next_word(char *s, int *i, char **ret, char delim);
+char	*get_single_quoeted_word(char *s, int *i);
+char	*get_not_s_quoeted_word(char *s, int *i, char c);
+int		get_token_cnt(char const *str, char dlm);
+
 #endif

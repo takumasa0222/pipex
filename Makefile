@@ -6,7 +6,7 @@
 #    By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/07 03:04:25 by tamatsuu          #+#    #+#              #
-#    Updated: 2024/10/02 01:40:01 by tamatsuu         ###   ########.fr        #
+#    Updated: 2024/10/06 01:23:15 by tamatsuu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRCS		= ./src/main.c \
 ./src/validation_2.c \
 ./src/validation_utils.c\
 ./src/pipex_utils_2.c \
+./src/pipex_utils_3.c \
 ./ft_get_next_line/get_next_line.c \
 ./ft_get_next_line/get_next_line_utils.c \
 ./src/init_path.c

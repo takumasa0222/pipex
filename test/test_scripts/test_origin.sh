@@ -89,7 +89,7 @@ echo -e "\e[31merr number is\e[0m" $?
 echo -e  "\e[34mtest case 12: if the path doesn't exist but command can be executable using absoluted path (part2) what will be happened\e[0m"
 touch test/tmp/infile_positive_1
 chmod 644 test/tmp/infile_positive_1
-export PATH=""
+unset $PATH
 < test/tmp/infile_positive_1 test/tmp/test_cmd_1 | test.out > ./test/tmp/outfile_positive_12
 echo -e "\e[31merr number is\e[0m" $?
 )
@@ -365,4 +365,82 @@ export PATH=""
 < test/tmp/infile_error_1 /cat | /bin/wc -l > ./test/tmp/outfile_error_30
 echo -e "\e[31merr number is\e[0m" $?
 )
+
+echo ""
+echo "bonus positive case"
+echo ""
+
+echo -e "\e[34mtest case 0: if there are several commands what will be happend\e[0m"
+touch test/tmp/infile_positive_1
+touch test/tmp/outfile_bonus_positive_0
+chmod 664 test/tmp/infile_positive_1
+chmod 664 test/tmp/outfile_bonus_positive_0
+< test/tmp/infile_positive_1 cat | sort | uniq | awk '{print $1}'| tr '[:lower:]' '[:upper:]' | cat > test/tmp/outfile_bonus_positive_0
+echo -e "\e[31merr number is\e[0m" $?
+
+echo -e "\e[34mtest case 1: if there are several commands what will be happend\e[0m"
+touch test/tmp/infile_positive_1
+touch test/tmp/outfile_bonus_positive_1
+chmod 664 test/tmp/infile_positive_1
+chmod 664 test/tmp/outfile_bonus_positive_1
+< test/tmp/infile_positive_1 cat | sort | tr '[:lower:]' '[:upper:]' | cut -d ' ' -f 1 | rev | sort | wc -l > test/tmp/outfile_bonus_positive_1
+echo -e "\e[31merr number is\e[0m" $?
+
+echo ""
+echo "bonus error case"
+echo ""
+
+# Case 1: コマンドが存在しない場合
+echo "Normal infile/outfile, missing intermediate command"
+< test/tmp/infile_error_1 cat | nonexistent_command | awk '{print $0}' | wc -l > test/tmp/outfile_bonus_error_case_0
+echo -e "\e[31merr number is\e[0m" $?
+
+echo "Normal infile/outfile, missing first command"
+< test/tmp/infile_error_1 nonexistent_command | awk '{print $0}' | grep 'test' | wc -l > test/tmp/outfile_bonus_error_case_1
+echo -e "\e[31merr number is\e[0m" $?
+
+echo "Normal infile/outfile, missing last command"
+< test/tmp/infile_error_1 cat | awk '{print $0}' | grep 'test' | nonexistent_command > test/tmp/outfile_bonus_error_case_2
+echo -e "\e[31merr number is\e[0m" $?
+
+# Case 2: パーミッションの問題
+# 一時ファイルを作成
+echo "cannot execute command due to permission"
+
+echo "Normal infile/outfile, permission issue with intermediate command"
+< test/tmp/infile_error_1 cat | awk '{print $0}' | /dev/null | wc -l > test/tmp/outfile_bonus_error_case_3
+echo -e "\e[31merr number is\e[0m" $?
+
+echo "Normal infile/outfile, permission issue with first command"
+< test/tmp/infile_error_1 /dev/null | awk '{print $0}' | grep 'test' | wc -l > test/tmp/outfile_bonus_error_case_4
+echo -e "\e[31merr number is\e[0m" $?
+
+echo "Normal infile/outfile, permission issue with last command"
+< test/tmp/infile_error_1 cat | awk '{print $0}' | grep 'test' | /dev/null > test/tmp/outfile_bonus_error_case_5
+echo -e "\e[31merr number is\e[0m" $?
+
+# Case 3: 有効な infile が存在しない場合
+echo "=== Case 3 ==="
+echo "File does not exist"
+< nonexistent_infile cat | awk '{print $0}' | grep 'test' > test/tmp/outfile_bonus_error_case_6
+echo -e "\e[31merr number is\e[0m" $?
+
+# 権限が不足している outfile を使用する場合
+echo "Permission denied on outfile"
+touch test/tmp/outfile_bonus_error_case_7
+chmod 000 test/tmp/outfile_bonus_error_case_7 # 読み取り専用に設定
+< test/tmp/infile_error_1 cat | awk '{print $0}' | grep 't' > test/tmp/outfile_bonus_error_case_7
+echo -e "\e[31merr number is\e[0m" $?
+
+# Case 4: Case 1 と Case 3 を組み合わせたパターン
+echo "=== Case 4 ==="
+< nonexistent_infile cat | nonexistent_command | awk '{print $0}' | grep 'test' | wc -l > test/tmp/outfile_bonus_error_case_8
+echo -e "\e[31merr number is\e[0m" $?
+
+< nonexistent_infile nonexistent_command | ls | awk '{print $0}' | grep 'test' | wc -l > test/tmp/outfile_bonus_error_case_9
+echo -e "\e[31merr number is\e[0m" $?
+
+< nonexistent_infile cat | ls | awk '{print $0}' | grep 'test' | nonexistent_command > test/tmp/outfile_bonus_error_case_10
+echo -e "\e[31merr number is\e[0m" $?
+
 

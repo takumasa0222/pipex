@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 14:42:47 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/10/02 03:12:58 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/10/06 03:25:32 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	cmd_executable_check(char **cmd, char **cmd_path)
 	exec_status = 0;
 	if (!cmd)
 		throw_err(NULL, EINVAL);
-	if (!check_cmd_exec(cmd[0]))
+	if (!check_cmd_exec(cmd[0]) && cmd_path != NULL)
 		exec_status = check_cmd_exec(cmd[0]);
 	else if (ft_strchr(cmd[0], '/'))
 		exec_status = check_cmd_exec(cmd[0]);

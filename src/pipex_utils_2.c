@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:57:54 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/09/16 16:15:40 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/10/06 01:21:55 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "../libft/libft.h"
 #include <fcntl.h>
 #include <sys/wait.h>
-#include <stdio.h>
 
 int	custom_dup2(int fd, int fd2, t_pipex *pipe_i, int fd3)
 {

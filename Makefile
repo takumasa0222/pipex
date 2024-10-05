@@ -6,7 +6,7 @@
 #    By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/07 03:04:25 by tamatsuu          #+#    #+#              #
-#    Updated: 2024/10/06 01:23:15 by tamatsuu         ###   ########.fr        #
+#    Updated: 2024/10/06 04:22:20 by tamatsuu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,6 +64,6 @@ fclean: clean
 
 norm:
 	norminette -R CheckForbiddenSourceHeader $(SRCS)
-	norminette -R CheckDefine *.h
+	norminette -R CheckDefine src/*.h
 
 re: fclean all

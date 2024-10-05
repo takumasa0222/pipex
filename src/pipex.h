@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 03:13:58 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/10/06 01:26:01 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/10/06 04:26:40 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 # define COLON ": "
 # define PERMISSION_DENIED 1
 # define CMD_NOT_FOUND 2
-
 
 # define HERE_DOC "here_doc"
 # define HERE_DOC_TMP ".here_doc.tmp"
@@ -40,11 +39,12 @@ typedef struct s_pipex
 	char	**cmd;
 	int		cmd_cnt;
 	pid_t	fork_ids[FD_NUM];
+	char	**path;
 }	t_pipex;
 
 int		main(int argc, char *argv[], char *envp[]);
 
-void	init_pipex(int argc, char **argv, t_pipex **pipe_i);
+void	init_pipex(int argc, char **argv, t_pipex **pipe_i, char **path);
 void	set_here_doc(t_pipex *pipe_i);
 void	set_cmd_cnt(t_pipex *pipe_i);
 char	**set_cmd(t_pipex *pipe_i);
@@ -58,6 +58,7 @@ int		get_arry_size(char **arry);
 void	throw_err(t_pipex *pipe_i, int err_no);
 void	free_pipe_info(t_pipex *pipe_i);
 void	close_pipex(t_pipex *pipe_i, int close_status);
+void	free_path(char **str);
 
 void	validate_args(t_pipex *pipe_i);
 void	argnum_check(t_pipex *pipe_i);

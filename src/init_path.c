@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 01:52:48 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/09/24 02:31:50 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/10/06 04:23:19 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 
 void	init_path(char **envp, char ***path_var)
 {
-	int	i;
-	char *tmp;
+	int		i;
+	char	*tmp;
 
 	if (!path_var)
 		throw_err(NULL, EINVAL);
@@ -28,7 +28,7 @@ void	init_path(char **envp, char ***path_var)
 	tmp = NULL;
 	while (envp[i])
 	{
-		if(!ft_strncmp(envp[i], "PATH=", 5))
+		if (!ft_strncmp(envp[i], "PATH=", 5))
 		{
 			tmp = ft_substr(envp[i], 5, ft_strlen(envp[i]));
 			*path_var = ft_split(tmp, ':');

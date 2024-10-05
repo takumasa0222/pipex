@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validation_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 22:44:58 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/09/16 19:59:15 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/10/06 04:23:51 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,12 @@ void	init_here_doc(t_pipex *pipe_i)
 		line = get_next_line(STDIN_FILENO);
 		if (!line)
 			break ;
-		else if (ft_strlen(line) - 1 == ft_strlen(pipe_i->arg[1])\
+		else if (ft_strlen(line) - 1 == ft_strlen(pipe_i->arg[1]) \
 		&& !(ft_strncmp(line, pipe_i->arg[1], ft_strlen(line) - 1)))
 			break ;
 		else
 			ft_putstr_fd(line, tmp_fd);
 		free(line);
-
 		line = NULL;
 	}
 	free(line);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_pipex.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 04:16:52 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/09/16 20:19:13 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/10/06 04:26:28 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,14 @@
 #include "../libft/libft.h"
 #include <fcntl.h>
 
-void	init_pipex(int argc, char **argv, t_pipex **pipe_i)
+void	init_pipex(int argc, char **argv, t_pipex **pipe_i, char **path)
 {
 	*pipe_i = malloc(1 * sizeof(t_pipex));
 	if (!pipe_i)
 		throw_err(*pipe_i, ENOMEM);
 	(*pipe_i)->arg = NULL;
 	(*pipe_i)->arg = set_arg(argc, argv);
+	(*pipe_i)->path = path;
 	if (!(*pipe_i)->arg)
 		throw_err(*pipe_i, ENOMEM);
 	set_here_doc(*pipe_i);

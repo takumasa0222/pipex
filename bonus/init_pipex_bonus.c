@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_pipex.c                                       :+:      :+:    :+:   */
+/*   init_pipex_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 04:16:52 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/10/06 18:30:00 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/10/06 18:29:50 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "pipex.h"
+#include "pipex_bonus.h"
 #include "../libft/libft.h"
 #include <fcntl.h>
 

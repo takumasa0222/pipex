@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+         #
+#    By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/07 03:04:25 by tamatsuu          #+#    #+#              #
-#    Updated: 2024/10/06 04:22:20 by tamatsuu         ###   ########.fr        #
+#    Updated: 2024/10/06 19:05:04 by tamatsuu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,9 +29,25 @@ SRCS		= ./src/main.c \
 
 
 OBJS		= $(SRCS:%.c=%.o)
-BONUS		=
+BONUS		= ./bonus/main_bonus.c \
+./bonus/init_pipex_bonus.c \
+./bonus/pipex_bonus.c \
+./bonus/pipex_utils_bonus.c \
+./bonus/validation_bonus.c \
+./bonus/validation_2_bonus.c \
+./bonus/validation_utils_bonus.c\
+./bonus/pipex_utils_2_bonus.c \
+./bonus/pipex_utils_3_bonus.c \
+./ft_get_next_line/get_next_line_bonus.c \
+./ft_get_next_line/get_next_line_utils_bonus.c \
+./bonus/init_path_bonus.c
 LIB			= ./libft/libft.a
 BOBJS		= $(BONUS:%.c=%.o)
+ifdef WITH_BONUS_PIPEX
+OBJS		= $(BOBJS)
+else
+OBJS	= $(SRCS:%.c=%.o)
+endif
 NAME		= pipex
 AR		= ar
 
@@ -44,7 +60,7 @@ $(NAME): $(OBJS)
 	$(CC) $(OBJS) -Lft -lft -L./libft -g -o $(NAME)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -g -O0 -c $< -o $@
+	$(CC) $(CFLAGS) -g  -c $< -o $@
 
 clean:
 	@make clean -C libft
@@ -54,16 +70,12 @@ fclean: clean
 	@make fclean -C libft
 	rm -f $(NAME)
 
-#bonus: $(BOBJS)
-#	@make -C libft
-#	@cp $(LIB) $(NAME)
-#	$(AR) rcs $(NAME) $(BOBJS)
+bonus:
+	@make WITH_BONUS_PIPEX=1
 
-#$(BOBJS): $(BONUS)
-#	$(CC) $(CFLAGS) -c $(BONUS)
 
 norm:
-	norminette -R CheckForbiddenSourceHeader $(SRCS)
-	norminette -R CheckDefine src/*.h
+	norminette -R CheckForbiddenSourceHeader $(SRCS) $(BONUS)
+	norminette -R CheckDefine src/*.h bonus/*.h
 
 re: fclean all

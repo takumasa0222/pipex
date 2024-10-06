@@ -5,6 +5,30 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
+			"name": "test for cmd validator",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "${workspaceFolder}/a.out",
+			"args": [],
+			"stopAtEntry": false,
+			"cwd": "${fileDirname}",
+			"environment": [],
+			"externalConsole": false,
+			"MIMode": "gdb",
+			"setupCommands": [
+				{
+					"description": "Enable pretty-printing for gdb",
+					"text": "-enable-pretty-printing",
+					"ignoreFailures": true
+				},
+				{
+					"description": "Set Disassembly Flavor to Intel",
+					"text": "-gdb-set disassembly-flavor intel",
+					"ignoreFailures": true
+				}
+			]
+		},
+		{
 			"name": "test",
 			"type": "cppdbg",
 			"request": "launch",
@@ -33,7 +57,7 @@
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "${workspaceFolder}/pipex",
-			"args": ["here_doc", "exit", "cat", "wc -l", "/dev/stdout"],
+			"args": ["test/tmp/infile_error_1", "cat", "ls", "/dev/stdout"],
 			"stopAtEntry": false,
 			"cwd": "${fileDirname}",
 			"environment": [],
@@ -50,12 +74,12 @@
 					"text": "-gdb-set disassembly-flavor intel",
 					"ignoreFailures": true
 				}
-				//,
-				//{
-				//  "description": "Trace child processes",
-				//  "text": "set follow-fork-mode child",   // 子プロセスを追跡するための設定
-				//  "ignoreFailures": false
-				//}
+				,
+				{
+				  "description": "Trace child processes",
+				  "text": "set follow-fork-mode child",   // 子プロセスを追跡するための設定
+				  "ignoreFailures": false
+				}
 				
 			]
 		}

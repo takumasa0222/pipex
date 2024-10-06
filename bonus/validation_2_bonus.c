@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   validation_2.c                                     :+:      :+:    :+:   */
+/*   validation_2_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 14:42:47 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/10/06 18:30:05 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/10/06 18:15:47 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -22,7 +22,7 @@ void	cmd_executable_check(char **cmd, char **cmd_path)
 
 	exec_status = 0;
 	if (!cmd)
-		throw_err(NULL, BASH_GENERAL_ERR);
+		throw_err(NULL, EINVAL);
 	if (!check_cmd_exec(cmd[0]) || !cmd_path)
 		exec_status = check_cmd_exec(cmd[0]);
 	else if (ft_strchr(cmd[0], '/'))

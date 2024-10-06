@@ -6,6 +6,10 @@
 		"fcntl.h": "c",
 		"libft.h": "c",
 		"unistd.h": "c",
-		"stdint.h": "c"
+		"stdint.h": "c",
+		"string.h": "c",
+		"pipex_bonus.h": "c",
+		"stdio.h": "c",
+		"get_next_line.h": "c"
 	}
 }

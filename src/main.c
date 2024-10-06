@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 03:04:18 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/10/06 04:26:18 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/10/06 23:29:47 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,6 @@ int	main(int argc, char *argv[], char *envp[])
 	init_path(envp, &path);
 	init_pipex(argc, argv, &pipe_i, path);
 	validate_args(pipe_i);
-	ret = pipex(pipe_i, path);
+	ret = pipex(pipe_i, path, envp);
 	close_pipex(pipe_i, ret);
 }

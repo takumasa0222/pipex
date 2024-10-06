@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 17:59:42 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/10/06 18:15:42 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/10/06 19:08:22 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	throw_err(t_pipex *pipe_i, int err_no)
 		close_fds(pipe_i->in_fd, pipe_i->out_fd);
 		free_path(pipe_i->path);
 		free_pipe_info(pipe_i);
+		if (pipe_i->is_here_doc)
+			unlink(HERE_DOC_TMP);
 	}
 	if (err_no)
 		exit(err_no);
@@ -92,6 +94,8 @@ void	free_path(char **str)
 
 void	close_pipex(t_pipex *pipe_i, int close_status)
 {
+	if (pipe_i->is_here_doc)
+		unlink(HERE_DOC_TMP);
 	close_fds(pipe_i->in_fd, pipe_i->out_fd);
 	free_path(pipe_i->path);
 	free_pipe_info(pipe_i);

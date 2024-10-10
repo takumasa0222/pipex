@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 17:59:42 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/10/06 19:08:22 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/10/10 20:24:32 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ int	get_arry_size(char **arry)
 	return (ret);
 }
 
-void	throw_err(t_pipex *pipe_i, int err_no)
+void	throw_err(t_pipex *pipe_i, int err_num)
 {
 	char	*err_msg;
 
 	err_msg = NULL;
-	if (err_no)
+	if (err_num)
 	{
-		err_msg = strerror(err_no);
+		err_msg = strerror(err_num);
 		ft_putstr_fd(err_msg, STDERR_FILENO);
 	}
 	if (pipe_i)
@@ -46,8 +46,8 @@ void	throw_err(t_pipex *pipe_i, int err_no)
 		if (pipe_i->is_here_doc)
 			unlink(HERE_DOC_TMP);
 	}
-	if (err_no)
-		exit(err_no);
+	if (err_num)
+		exit(err_num);
 	exit(EXIT_FAILURE);
 }
 

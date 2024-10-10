@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 03:13:58 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/10/06 18:15:24 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/10/10 20:15:12 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ void	set_cmd_cnt(t_pipex *pipe_i);
 char	**set_cmd(t_pipex *pipe_i);
 char	**set_arg(int argc, char **argv);
 
-int		pipex(t_pipex *pipe_i, char **cmd_path);
-void	pipe_exec(t_pipex *pipe_i, int i, char **cmd_path);
-void	exec_cmd(t_pipex *pipe_i, int i, char **cmd_path);
+int		pipex(t_pipex *pipe_i, char **cmd_path, char **envp);
+void	pipe_exec(t_pipex *pipe_i, int i, char **cmd_path, char **envp);
+void	exec_cmd(t_pipex *pipe_i, int i, char **cmd_path, char **envp);
 
 int		get_arry_size(char **arry);
 void	throw_err(t_pipex *pipe_i, int err_no);
@@ -68,10 +68,10 @@ void	outfile_check(t_pipex *pipe_i);
 
 void	init_path(char **envp, char ***path_var);
 
-void	cmd_executable_check(char **cmd, char **cmd_path);
-int		check_cmd_exec_w_path(char **cmd_path, char *cmd);
+void	cmd_executable_check(char **cmd, char **cmd_path, char **exec_cmd);
+int		check_cmd_exec_w_path(char **cmd_path, char *cmd, char **ex_cmd);
 void	ft_printerr(char *err_msg, char *err_cmd);
-int		check_cmd_exec(char *cmd);
+int		check_cmd_exec(char *cmd, char **exec_cmd);
 
 void	set_infile(t_pipex *pipe_i, char *file_path);
 void	set_outfile(t_pipex *pipe_i, char *file_path);

@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 17:59:42 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/10/10 20:24:32 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/10/10 20:35:57 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ void	throw_err(t_pipex *pipe_i, int err_num)
 	if (pipe_i)
 	{
 		close_fds(pipe_i->in_fd, pipe_i->out_fd);
-		free_path(pipe_i->path);
-		free_pipe_info(pipe_i);
 		if (pipe_i->is_here_doc)
 			unlink(HERE_DOC_TMP);
+		free_path(pipe_i->path);
+		free_pipe_info(pipe_i);
 	}
 	if (err_num)
 		exit(err_num);

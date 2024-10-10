@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 04:35:59 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/10/06 23:31:20 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/10/10 22:34:41 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,3 +92,27 @@ void	exec_cmd(t_pipex *pipe_i, int i, char **cmd_path, char **envp)
 		exit(BASH_GENERAL_ERR);
 	}
 }
+
+
+
+//IN 
+//while TRUE
+//	IF LAST
+//		pipe_out = OUT
+//	ELSE
+//		pip_in-WRITE
+//		pipe_out_READ
+
+//	if(!fork)
+//		close(pipe_out)
+//		dup2
+//		exec_cmd
+//	else 
+//		close(pip_in)
+//		close(IN)
+//		IF LAST
+//			BREAK
+//		IN = pip_out
+
+   
+  

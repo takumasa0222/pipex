@@ -6,7 +6,7 @@
 #    By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/07 03:04:25 by tamatsuu          #+#    #+#              #
-#    Updated: 2024/10/06 19:05:04 by tamatsuu         ###   ########.fr        #
+#    Updated: 2024/10/10 20:46:59 by tamatsuu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,6 @@ SRCS		= ./src/main.c \
 ./ft_get_next_line/get_next_line_utils.c \
 ./src/init_path.c
 
-
 OBJS		= $(SRCS:%.c=%.o)
 BONUS		= ./bonus/main_bonus.c \
 ./bonus/init_pipex_bonus.c \
@@ -38,8 +37,8 @@ BONUS		= ./bonus/main_bonus.c \
 ./bonus/validation_utils_bonus.c\
 ./bonus/pipex_utils_2_bonus.c \
 ./bonus/pipex_utils_3_bonus.c \
-./ft_get_next_line/get_next_line_bonus.c \
-./ft_get_next_line/get_next_line_utils_bonus.c \
+./ft_get_next_line/get_next_line.c \
+./ft_get_next_line/get_next_line_utils.c \
 ./bonus/init_path_bonus.c
 LIB			= ./libft/libft.a
 BOBJS		= $(BONUS:%.c=%.o)

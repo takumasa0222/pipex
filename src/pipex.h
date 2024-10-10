@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 03:13:58 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/10/06 23:30:15 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/10/11 02:51:26 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # define PERMISSION_DENIED 1
 # define CMD_NOT_FOUND 2
 # define BASH_GENERAL_ERR 1
+# define MIN_ARG_NUM 4
 
 # define HERE_DOC "here_doc"
 # define HERE_DOC_TMP ".here_doc.tmp"

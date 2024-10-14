@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 04:35:59 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/10/14 06:06:23 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/10/14 14:27:11 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	pipex(t_pipex *pipe_i, char **cmd_path, char **envp)
 	c_status = 0;
 	while (++i < pipe_i->cmd_cnt)
 		waitpid(pipe_i->fork_ids[i], &c_status, 0);
+	if (WIFSIGNALED(c_status))
+		return (WTERMSIG(c_status) + 128);
 	return (WEXITSTATUS(c_status));
 }
 
@@ -52,13 +54,7 @@ void	pipe_exec(t_pipex *pipe_i, int i, char **cmd_path, char **envp)
 	pipe_i->fork_ids[i] = fork();
 	if (pipe_i->fork_ids[i] == 0)
 	{
-		// if (i == 0)
-		// 	custom_dup2(pipe_i->in_fd, STDIN_FILENO, pipe_i, p_fd[1]);
-		// custom_dup2(p_fd[1], STDOUT_FILENO, pipe_i, p_fd[0]);
-		// close_fds(p_fd[0], p_fd[1]);
-		// if (i == (get_arry_size(pipe_i->cmd) - 1))
-		// 	custom_dup2(pipe_i->out_fd, STDOUT_FILENO, pipe_i, -1);
-		child_ps_fd_ctrl(pipe_i, p_fd, i);
+		child_process_fd_ctrl(pipe_i, p_fd, i);
 		exec_cmd(pipe_i, i, cmd_path, envp);
 	}
 	else if (pipe_i->fork_ids[i] == -1)
@@ -68,19 +64,33 @@ void	pipe_exec(t_pipex *pipe_i, int i, char **cmd_path, char **envp)
 	}
 	else
 	{
-		// custom_dup2(p_fd[0], STDIN_FILENO, pipe_i, p_fd[1]);
-		custom_dup2(p_fd[0], pipe_i->in_fd, pipe_i, p_fd[1]);
-		close_fds(p_fd[0], p_fd[1]);
+		parent_process_fd_ctrl(pipe_i, p_fd);
 	}
 }
 
-void	child_ps_fd_ctrl(t_pipex *pipe_i, int *p_fd, int i)
+void	child_process_fd_ctrl(t_pipex *pipe_i, int *p_fd, int i)
 {
 	custom_dup2(pipe_i->in_fd, STDIN_FILENO, pipe_i, p_fd[1]);
+	close(pipe_i->in_fd);
 	custom_dup2(p_fd[1], STDOUT_FILENO, pipe_i, p_fd[0]);
 	close_fds(p_fd[0], p_fd[1]);
 	if (i == (get_arry_size(pipe_i->cmd) - 1))
 		custom_dup2(pipe_i->out_fd, STDOUT_FILENO, pipe_i, -1);
+	close(pipe_i->out_fd);
+}
+
+void	parent_process_fd_ctrl(t_pipex *pipe_i, int *p_fd)
+{
+	if (pipe_i->in_fd == -1)
+	{
+		close(p_fd[1]);
+		pipe_i->in_fd = p_fd[0];
+	}
+	else
+	{
+		custom_dup2(p_fd[0], pipe_i->in_fd, pipe_i, p_fd[1]);
+		close_fds(p_fd[0], p_fd[1]);
+	}
 }
 
 void	exec_cmd(t_pipex *pipe_i, int i, char **cmd_path, char **envp)
@@ -90,16 +100,14 @@ void	exec_cmd(t_pipex *pipe_i, int i, char **cmd_path, char **envp)
 	char	*exec_cmd;
 
 	cmd = ft_cmd_tokenizer(pipe_i->cmd[i], ' ');
-	close_fds(pipe_i->in_fd, pipe_i->out_fd);
 	if (!cmd)
 		throw_err(pipe_i, BASH_GENERAL_ERR);
-	cmd_executable_check(cmd, cmd_path, &exec_cmd);
+	cmd_exec_check(cmd, cmd_path, &exec_cmd, pipe_i);
 	ret = execve(exec_cmd, cmd, envp);
 	if (ret)
 	{
 		perror("");
-		free(cmd);
 		free(exec_cmd);
-		exit(BASH_GENERAL_ERR);
+		multi_free_close(pipe_i, BASH_GENERAL_ERR, cmd);
 	}
 }

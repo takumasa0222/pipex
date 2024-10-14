@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 17:59:42 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/10/10 20:35:57 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/10/14 14:30:49 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ void	throw_err(t_pipex *pipe_i, int err_num)
 	char	*err_msg;
 
 	err_msg = NULL;
-	if (err_num)
+	if (err_num == BASH_GENERAL_ERR)
+		ft_printerr(BASH_FILE_ERR_MSG, NULL);
+	else if (err_num)
 	{
 		err_msg = strerror(err_num);
 		ft_putstr_fd(err_msg, STDERR_FILENO);

@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 03:13:58 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/10/11 02:51:26 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/10/14 14:11:16 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # define BASH_FILE_ERR_MSG "bash: "
 # define CMD_NOT_FOUND_MSG "command not found\n"
 # define PERMISSION_DENIED_MSG "Permission denied\n"
+# define BASH_GENERAL_ERR_MSG "Error\n"
 # define COLON ": "
 # define PERMISSION_DENIED 1
 # define CMD_NOT_FOUND 2
@@ -55,6 +56,8 @@ char	**set_arg(int argc, char **argv);
 int		pipex(t_pipex *pipe_i, char **cmd_path, char **envp);
 void	pipe_exec(t_pipex *pipe_i, int i, char **cmd_path, char **envp);
 void	exec_cmd(t_pipex *pipe_i, int i, char **cmd_path, char **envp);
+void	child_process_fd_ctrl(t_pipex *pipe_i, int *p_fd, int i);
+void	parent_process_fd_ctrl(t_pipex *pipe_i, int *p_fd);
 
 int		get_arry_size(char **arry);
 void	throw_err(t_pipex *pipe_i, int err_no);
@@ -69,7 +72,7 @@ void	outfile_check(t_pipex *pipe_i);
 
 void	init_path(char **envp, char ***path_var);
 
-void	cmd_executable_check(char **cmd, char **cmd_path, char **exec_cmd);
+void	cmd_exec_check(char **cmd, char **path, char **exe_cmd, t_pipex *p_i);
 int		check_cmd_exec_w_path(char **cmd_path, char *cmd, char **ex_cmd);
 void	ft_printerr(char *err_msg, char *err_cmd);
 int		check_cmd_exec(char *cmd, char **exec_cmd);
@@ -82,6 +85,7 @@ void	init_here_doc(t_pipex *pipe_i);
 
 int		custom_dup2(int fd, int fd2, t_pipex *pipe_i, int fd3);
 int		close_fds(int fd, int fd2);
+void	multi_free_close(t_pipex *pipe_i, int close_status, char **cmd);
 
 char	**ft_cmd_tokenizer(char *s, char c);
 void	get_next_word(char *s, int *i, char **ret, char delim);

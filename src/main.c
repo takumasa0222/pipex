@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 03:04:18 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/10/14 04:43:56 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/10/14 12:18:06 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,8 @@ int	main(int argc, char *argv[], char *envp[])
 		close_pipex(pipe_i, ret);
 	}
 	else
-		throw_err(NULL, BASH_GENERAL_ERR);
+	{
+		ft_printerr(BASH_GENERAL_ERR_MSG, NULL);
+		return (BASH_GENERAL_ERR);
+	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tamatsuu <tamatsuu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 01:52:48 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/10/06 04:23:19 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/10/14 14:23:07 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	init_path(char **envp, char ***path_var)
 	char	*tmp;
 
 	if (!path_var)
-		throw_err(NULL, EINVAL);
+		throw_err(NULL, BASH_GENERAL_ERR);
 	if (!envp)
 		return ;
 	i = 0;

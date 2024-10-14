@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 17:59:42 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/10/10 20:25:18 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/10/14 12:37:10 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ void	throw_err(t_pipex *pipe_i, int err_num)
 	char	*err_msg;
 
 	err_msg = NULL;
-	if (err_num)
+	if (err_num == BASH_GENERAL_ERR)
+		ft_printerr(BASH_FILE_ERR_MSG, NULL);
+	else if (err_num)
 	{
 		err_msg = strerror(err_num);
 		ft_putstr_fd(err_msg, STDERR_FILENO);
@@ -41,6 +43,8 @@ void	throw_err(t_pipex *pipe_i, int err_num)
 	if (pipe_i)
 	{
 		close_fds(pipe_i->in_fd, pipe_i->out_fd);
+		if (pipe_i->is_here_doc)
+			unlink(HERE_DOC_TMP);
 		free_path(pipe_i->path);
 		free_pipe_info(pipe_i);
 	}
@@ -92,6 +96,8 @@ void	free_path(char **str)
 
 void	close_pipex(t_pipex *pipe_i, int close_status)
 {
+	if (pipe_i->is_here_doc)
+		unlink(HERE_DOC_TMP);
 	close_fds(pipe_i->in_fd, pipe_i->out_fd);
 	free_path(pipe_i->path);
 	free_pipe_info(pipe_i);

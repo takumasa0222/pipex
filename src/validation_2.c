@@ -6,7 +6,7 @@
 /*   By: tamatsuu <tamatsuu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 14:42:47 by tamatsuu          #+#    #+#             */
-/*   Updated: 2024/10/06 23:34:53 by tamatsuu         ###   ########.fr       */
+/*   Updated: 2024/10/14 14:11:52 by tamatsuu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,35 +16,37 @@
 #include <stdio.h>
 #include "../libft/libft.h"
 
-void	cmd_executable_check(char **cmd, char **cmd_path, char **exec_cmd)
+void	cmd_exec_check(char **cmd, char **path, char **exe_cmd, t_pipex *p_i)
 {
 	int		exec_status;
 
 	exec_status = 0;
 	if (!cmd)
 		throw_err(NULL, BASH_GENERAL_ERR);
-	if (!check_cmd_exec(cmd[0], exec_cmd) || !cmd_path)
-		exec_status = check_cmd_exec(cmd[0], exec_cmd);
+	if (!check_cmd_exec(cmd[0], exe_cmd) || !path)
+		exec_status = check_cmd_exec(cmd[0], exe_cmd);
 	else if (ft_strchr(cmd[0], '/'))
-		exec_status = check_cmd_exec(cmd[0], exec_cmd);
+		exec_status = check_cmd_exec(cmd[0], exe_cmd);
 	else if (!cmd[0])
 		exec_status = CMD_NOT_FOUND;
 	else
-		exec_status = check_cmd_exec_w_path(cmd_path, cmd[0], exec_cmd);
+		exec_status = check_cmd_exec_w_path(path, cmd[0], exe_cmd);
 	if (exec_status == PERMISSION_DENIED)
 	{
 		ft_printerr(PERMISSION_DENIED_MSG, cmd[0]);
-		exit(126);
+		multi_free_close(p_i, 126, cmd);
 	}
 	else if (exec_status == CMD_NOT_FOUND)
 	{
 		ft_printerr(CMD_NOT_FOUND_MSG, cmd[0]);
-		exit(127);
+		multi_free_close(p_i, 127, cmd);
 	}
 }
 
 int	check_cmd_exec(char *cmd, char **exec_cmd)
 {
+	if (!cmd)
+		return (CMD_NOT_FOUND);
 	if (access(cmd, F_OK) == 0)
 	{
 		if (access(cmd, X_OK) == 0)
